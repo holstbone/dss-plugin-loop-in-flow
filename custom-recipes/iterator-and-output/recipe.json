@@ -1,0 +1,85 @@
+// This file is the descriptor for the Custom code recipe iterator-and-output
+{
+    // Meta data for display purposes
+    "meta": {
+        // label: name of the recipe as displayed, should be short
+        "label": "Iterate loop",
+        // description: longer string to help end users understand what this recipe does
+        "description": "Runs loop N times and copies output. This plugin assumes that you also have the create loop plugin set on the same input dataset",
+        // icon: must be one of the FontAwesome 3.2.1 icons, complete list here at https://fontawesome.com/v3.2.1/icons/
+        "icon": "icon-fast-forward"
+    },
+
+    "kind": "PYTHON",
+    "selectableFromDataset": "starter_dataset",
+
+
+    // Inputs and outputs are defined by roles. In the recipe's I/O tab, the user can associate one
+    // or more dataset to each input and output role.
+
+    // The "arity" field indicates whether the user can associate several datasets to the role ('NARY')
+    // or at most one ('UNARY'). The "required" field indicates whether the user is allowed to
+    // associate no dataset with the role.
+
+    "inputRoles": [
+        {
+            "name": "starter_dataset",
+            "label": "input A displayed name",
+            "description": "what input A means",
+            "arity": "UNARY",
+            "required": true,
+            "acceptsDataset": true
+        }
+    ],
+
+    "outputRoles": [
+        {
+            "name": "output_copy",
+            "label": "main output displayed name",
+            "description": "what main output means",
+            "arity": "UNARY",
+            "required": true,
+            "acceptsDataset": true
+        }
+    ],
+
+    /* The field "params" holds a list of all the params
+       for wich the user will be prompted for values in the Settings tab of the recipe.
+
+       The available parameter types include:
+       STRING, STRINGS, INT, DOUBLE, BOOLEAN, SELECT, MULTISELECT, MAP, TEXTAREA, PRESET, COLUMN, COLUMNS
+
+       For the full list and for more details, see the documentation: https://doc.dataiku.com/dss/latest/plugins/reference/params.html
+    */
+
+    "params": [
+        {
+           "name": "final_dataset",
+           "label": "The final dataset in your loop that you will copy from.",
+           "type": "DATASET",
+           "targetParamsKey": "dataset_to_build",
+           "applicableToForeign": false
+        },
+
+        {
+            "name": "times_to_build",
+            "label": "Number of times to build the output dataset",
+            "type": "INT",
+            "defaultValue": 1
+            /* Note that standard json parsing will return it as a double in Python (instead of an int), so you need to write
+               int(self.config()['parameter2'])
+            */
+        }
+
+        // The 'COLUMNS' type works in the same way, except that it is a list of strings.
+    ],
+
+    // The field "resourceKeys" holds a list of keys that allows to limit the number
+    // of concurrent executions and activities triggered by this recipe.
+    //
+    // Administrators can configure the limit per resource key in the Administration > Settings > Flow build
+    // screen.
+
+    "resourceKeys": []
+
+}

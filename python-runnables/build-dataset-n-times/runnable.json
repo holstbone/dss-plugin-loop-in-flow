@@ -1,0 +1,76 @@
+/* This file is the descriptor for the python runnable build-dataset-n-times */
+{
+    "meta": {
+        // label: name of the runnable as displayed, should be short
+        "label": "Repeatedly build dataset",
+
+        // description: longer string to help end users understand what this runnable does
+        "description": "Builds a Dataset n number of times - can be used in conjunction with the Loop plugin.",
+
+        // icon: must be one of the FontAwesome 3.2.1 icons, complete list here at https://fontawesome.com/v3.2.1/icons/
+        "icon": "icon-puzzle-piece"
+    },
+
+    /* whether the runnable's code is untrusted */
+    "impersonate": true,
+
+
+    /* params:
+    DSS will generate a formular from this list of requested parameters.
+    Your component code can then access the value provided by users using the "name" field of each parameter.
+
+    Available parameter types include:
+    STRING, INT, DOUBLE, BOOLEAN, DATE, SELECT, TEXTAREA, DATASET, DATASET_COLUMN, MANAGED_FOLDER, PRESET and others.
+
+    For the full list and for more details, see the documentation: https://doc.dataiku.com/dss/latest/plugins/reference/params.html
+    */
+    "params": [
+        {
+           "name": "final_dataset",
+           "label": "The final dataset in your loop that you want to build multiple times.",
+           "type": "DATASET",
+           "targetParamsKey": "dataset_to_build",
+           "applicableToForeign": false
+        },
+
+        {
+            "name": "times_to_build",
+            "label": "Number of times to build the output dataset",
+            "type": "INT",
+            "defaultValue": 1
+            /* Note that standard json parsing will return it as a double in Python (instead of an int), so you need to write
+               int(self.config()['parameter2'])
+            */
+        }
+
+    ],
+
+    /* list of required permissions on the project to see/run the runnable */
+    "permissions": [],
+
+    "resultType": "NONE",
+
+    /* label to use when the runnable's result is not inlined in the UI (ex: for urls) */
+    "resultLabel": "Output Success",
+
+    /* for FILE resultType, the extension to use for the temp file */
+    "extension": "txt",
+
+    /* for FILE resultType, the type of data stored in the temp file */
+    "mimeType": "text/plain",
+
+    /* Macro roles define where this macro will appear in DSS GUI. They are used to pre-fill a macro parameter with context.
+
+       Each role consists of:
+        - type: where the macro will be shown
+            * when selecting DSS object(s): DATASET, DATASETS, API_SERVICE, API_SERVICE_VERSION, BUNDLE, VISUAL_ANALYSIS, SAVED_MODEL, MANAGED_FOLDER
+            * in the global project list: PROJECT_MACROS
+        - targetParamsKey(s): name of the parameter(s) that will be filled with the selected object
+    */
+    "macroRoles": [
+     {
+            "type": "DATASET",
+            "targetParamsKey": "dataset_to_build"
+        }
+    ]
+}
